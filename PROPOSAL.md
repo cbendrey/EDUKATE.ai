@@ -13,7 +13,7 @@ The prototype accepts a single employer cohort payload and calculates:
 - an employer-facing summary paragraph; and
 - structured escalation alerts with severity, reason codes, and suggested actions.
 
-The current implementation is deterministic. AI should improve phrasing and prioritisation only after the underlying metrics and rules are trusted.
+The current implementation uses AI for the summary generation but falls back to a deterministic implementation when there are issues with generating a response via AI. AI should improve phrasing and prioritisation only after the underlying metrics and rules are trusted.
 
 ## Suggested product flow
 
