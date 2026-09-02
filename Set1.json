@@ -1,0 +1,81 @@
+{
+  "employer": "Acme Logistics",
+  "cohort": "Level 3 Digital Marketing - Sept 2025",
+  "reporting_period": "2026-08-01 to 2026-08-31",
+  "learners": [
+    {
+      "name": "J. Smith",
+      "sessions_attended": 8,
+      "sessions_scheduled": 8,
+      "assessments_submitted": 4,
+      "assessments_due": 4,
+      "off_the_job_hours_logged": 21.0,
+      "off_the_job_hours_target": 20,
+      "at_risk_flags": []
+    },
+    {
+      "name": "A. Chen",
+      "sessions_attended": 7,
+      "sessions_scheduled": 8,
+      "assessments_submitted": 3,
+      "assessments_due": 3,
+      "off_the_job_hours_logged": 19.5,
+      "off_the_job_hours_target": 20,
+      "at_risk_flags": []
+    },
+    {
+      "name": "R. Patel",
+      "sessions_attended": 6,
+      "sessions_scheduled": 8,
+      "assessments_submitted": 2,
+      "assessments_due": 3,
+      "off_the_job_hours_logged": 15.0,
+      "off_the_job_hours_target": 20,
+      "at_risk_flags": []
+    },
+    {
+      "name": "M. O'Brien",
+      "sessions_attended": 6,
+      "sessions_scheduled": 8,
+      "assessments_submitted": 3,
+      "assessments_due": 4,
+      "off_the_job_hours_logged": 13.0,
+      "off_the_job_hours_target": 20,
+      "at_risk_flags": ["assessment_overdue"]
+    },
+    {
+      "name": "K. Nowak",
+      "sessions_attended": 5,
+      "sessions_scheduled": 8,
+      "assessments_submitted": 3,
+      "assessments_due": 3,
+      "off_the_job_hours_logged": 16.5,
+      "off_the_job_hours_target": 20,
+      "at_risk_flags": ["attendance_declining"]
+    },
+    {
+      "name": "T. Williams",
+      "sessions_attended": 3,
+      "sessions_scheduled": 8,
+      "assessments_submitted": 1,
+      "assessments_due": 4,
+      "off_the_job_hours_logged": 6.0,
+      "off_the_job_hours_target": 20,
+      "at_risk_flags": [
+        "missed_last_2_sessions",
+        "assessment_overdue",
+        "otj_hours_below_50pct"
+      ]
+    },
+    {
+      "name": "S. Adeyemi",
+      "sessions_attended": 4,
+      "sessions_scheduled": 8,
+      "assessments_submitted": 2,
+      "assessments_due": 4,
+      "off_the_job_hours_logged": 8.5,
+      "off_the_job_hours_target": 20,
+      "at_risk_flags": ["assessment_overdue", "otj_hours_below_50pct"]
+    }
+  ]
+}
