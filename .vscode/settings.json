@@ -3,6 +3,10 @@
         "/^python -m unittest -v$/": {
             "approve": true,
             "matchCommandLine": true
+        },
+        "/^python -m unittest test_learner_progress_summariser\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
         }
     }
 }

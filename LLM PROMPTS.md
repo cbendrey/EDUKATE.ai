@@ -28,3 +28,19 @@ Add a comment to learner_status stating this new assumption and the others that 
 ---------------------------
 
 Update the readme.md with the new learner status decisions
+
+---------------------------
+
+Please generate the human readable summary by making summary_generator call ollama to produce a concise employer-facing paragraph. The prompt should instruct the model to use only the supplied facts, avoid diagnosing or inferring causes, preserve all numbers exactly. The deterministic summary should remain as a reliable fallback.
+
+---------------------------
+
+Update the prompt so that the summary returns how many learners are in each status too. Also ensure that the names of the at-risk learners are flagged as needing more support.
+
+---------------------------
+
+Use the following rules in the prompt to make sure that Ollama is being consistent
+
+at-risk: two or more flags; attendance below 50%; off-the-job hours below 50% of target; or all three measures (attendance, assessment completion, and off-the-job hours) below 100%;
+healthy: no flags, attendance at least 85%, assessment completion at least 100%, and off-the-job hours at least 95% of target; and
+borderline: every remaining learner.
