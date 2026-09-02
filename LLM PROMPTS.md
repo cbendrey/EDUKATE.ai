@@ -44,3 +44,11 @@ Use the following rules in the prompt to make sure that Ollama is being consiste
 at-risk: two or more flags; attendance below 50%; off-the-job hours below 50% of target; or all three measures (attendance, assessment completion, and off-the-job hours) below 100%;
 healthy: no flags, attendance at least 85%, assessment completion at least 100%, and off-the-job hours at least 95% of target; and
 borderline: every remaining learner.
+
+---------------------------
+
+Make sure this outputs a formatted Slack/email alert payload.
+
+---------------------------
+
+Create  launch configurations with different arguments for Slack, Email and JSON.

@@ -90,6 +90,68 @@ def build_alert(learner: dict[str, Any], status: str) -> dict[str, Any]:
     }
 
 
+def format_slack_alert_payload(report: dict[str, Any]) -> dict[str, Any]:
+    """Format a report as a Slack Web API message payload."""
+    alerts = report["escalation_alerts"]
+    blocks: list[dict[str, Any]] = [
+        {
+            "type": "header",
+            "text": {"type": "plain_text", "text": "Learner progress escalation"},
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": f"*{report['employer']}* | {report['cohort']} | {report['reporting_period']}\n{report['summary']}",
+            },
+        },
+    ]
+    if alerts:
+        for alert in alerts:
+            reasons = "; ".join(alert["reasons"]) or "Status requires review"
+            actions = "; ".join(alert["recommended_actions"]) or "Review learner support needs"
+            blocks.append({
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": (
+                        f"*{alert['learner']}* | *{alert['severity'].upper()}* | {alert['status']}\n"
+                        f"*Reason:* {reasons}\n*Recommended action:* {actions}"
+                    ),
+                },
+            })
+    else:
+        blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": "No escalation alerts."}})
+
+    return {
+        "text": f"Learner progress escalation for {report['employer']}",
+        "blocks": blocks,
+    }
+
+
+def format_email_alert_payload(report: dict[str, Any]) -> dict[str, str]:
+    """Format a report as a plain-text email subject and body."""
+    lines = [
+        report["summary"],
+        "",
+        "ESCALATION ALERTS",
+    ]
+    alerts = report["escalation_alerts"]
+    if not alerts:
+        lines.append("No escalation alerts.")
+    for alert in alerts:
+        lines.extend([
+            "",
+            f"{alert['learner']} - {alert['severity'].upper()} ({alert['status']})",
+            f"Reasons: {', '.join(alert['reasons']) or 'Status requires review'}",
+            f"Recommended actions: {', '.join(alert['recommended_actions']) or 'Review learner support needs'}",
+        ])
+    return {
+        "subject": f"Learner progress escalation: {report['employer']} - {report['cohort']}",
+        "body": "\n".join(lines),
+    }
+
+
 def build_deterministic_summary(
     payload: dict[str, Any],
     learners: list[dict[str, Any]],
@@ -225,6 +287,12 @@ def generate_report(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Summarise learner progress from JSON.")
     parser.add_argument("payload_path", type=Path, help="Path to the learner progress JSON file")
+    parser.add_argument(
+        "--output-format",
+        choices=("json", "slack", "email"),
+        default="json",
+        help="Output format for the report (default: json)",
+    )
     args = parser.parse_args()
 
     try:
@@ -232,10 +300,13 @@ def main() -> None:
     except (OSError, json.JSONDecodeError, ValueError, KeyError) as error:
         parser.error(f"could not process {args.payload_path}: {error}")
 
-    print("EMPLOYER SUMMARY")
-    print(report["summary"])
-    print("\nESCALATION PAYLOAD")
-    print(json.dumps(report["escalation_alerts"], indent=2))
+    if args.output_format == "slack":
+        output = format_slack_alert_payload(report)
+    elif args.output_format == "email":
+        output = format_email_alert_payload(report)
+    else:
+        output = report
+    print(json.dumps(output, indent=2))
 
 
 if __name__ == "__main__":

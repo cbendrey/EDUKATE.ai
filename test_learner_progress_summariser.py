@@ -3,7 +3,13 @@ import unittest
 from unittest.mock import patch
 from pathlib import Path
 
-from learner_progress_summariser import generate_report, load_payload, summary_generator
+from learner_progress_summariser import (
+    format_email_alert_payload,
+    format_slack_alert_payload,
+    generate_report,
+    load_payload,
+    summary_generator,
+)
 
 
 PAYLOAD_PATH = Path(__file__).with_name("Set1.json")
@@ -32,6 +38,27 @@ class LearnerProgressSummariserTests(unittest.TestCase):
             alert for alert in report["escalation_alerts"] if alert["severity"] == "high"
         ]
         self.assertEqual({alert["learner"] for alert in high_alerts}, {"R. Patel", "M. O'Brien", "T. Williams", "S. Adeyemi"})
+
+    def test_formats_slack_alert_payload(self):
+        report = generate_report(mock_payload, generate_summary=False)
+
+        slack_payload = format_slack_alert_payload(report)
+
+        self.assertIn("text", slack_payload)
+        self.assertTrue(slack_payload["blocks"])
+        slack_text = json.dumps(slack_payload)
+        self.assertIn("R. Patel", slack_text)
+        self.assertIn("Recommended action", slack_text)
+
+    def test_formats_email_alert_payload(self):
+        report = generate_report(mock_payload, generate_summary=False)
+
+        email_payload = format_email_alert_payload(report)
+
+        self.assertIn("subject", email_payload)
+        self.assertIn("body", email_payload)
+        self.assertIn("R. Patel", email_payload["body"])
+        self.assertIn("Recommended actions", email_payload["body"])
 
     @patch("learner_progress_summariser.summary_generator", return_value="AI employer summary")
     def test_uses_ollama_summary_generator(self, mocked_generator):

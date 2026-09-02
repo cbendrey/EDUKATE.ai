@@ -15,6 +15,19 @@ expects a local Ollama server when generating the AI summary.
 python learner_progress_summariser.py mock_payload.json
 ```
 
+The default output is the complete JSON report. To produce a payload ready for
+the relevant delivery channel, select one of these formats:
+
+```powershell
+python learner_progress_summariser.py mock_payload.json --output-format slack
+python learner_progress_summariser.py mock_payload.json --output-format email
+```
+
+The Slack format contains a `text` fallback and Slack `blocks`. The email
+format contains a plain-text `subject` and `body`. Both include the employer
+summary and formatted escalation details. The default JSON report retains the
+machine-readable `escalation_alerts` list.
+
 Install and start Ollama, then download the default model:
 
 ```powershell
