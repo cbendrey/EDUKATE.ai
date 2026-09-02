@@ -20,8 +20,10 @@ Pass the path to any compatible UTF-8 JSON payload as the required command-line 
 
 Status is deliberately deterministic and explainable:
 
-- `healthy`: no flags, attendance at least 85%, assessment completion at 100%, and off-the-job hours at least 95% of target;
-- `borderline`: a flag exists or one measure is below target; and
-- `at-risk`: two or more flags, attendance below 50%, or off-the-job hours below 50% of target.
+- `at-risk`: two or more flags; attendance below 50%; off-the-job hours below 50% of target; or all three measures (attendance, assessment completion, and off-the-job hours) below 100%;
+- `healthy`: no flags, attendance at least 85%, assessment completion at least 100%, and off-the-job hours at least 95% of target; and
+- `borderline`: every remaining learner.
+
+The rules are evaluated in that order, so at-risk takes priority over healthy when conditions overlap. Percentages are calculated from the corresponding scheduled, due, or target values; a zero denominator is treated as 100%.
 
 The alert payload preserves machine-readable `reason_codes` and adds human-readable reasons and recommended actions. A production implementation should validate the payload schema, use stable learner IDs, keep an audit trail for generated text, and require a human review before employer delivery.

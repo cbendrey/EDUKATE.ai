@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug learner summariser",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/learner_progress_summariser.py",
+      "args": ["${workspaceFolder}/Set1.json"],
+      "console": "integratedTerminal"
+    }
+  ]
+}

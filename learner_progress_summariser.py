@@ -39,7 +39,23 @@ def learner_status(learner: dict[str, Any]) -> str:
     )
     flags = learner["at_risk_flags"]
 
-    if len(flags) >= 2 or attendance < 50 or otj_completion < 50:
+    # Status assumptions: 
+    # at-risk 
+    #  - 2+ flags, attendance or OTJ below 50%, or all three measures below 100%; 
+    # healthy 
+    # - requires no flags, 
+    # - attendance >= 85%, assessment completion >= 100%, and OTJ >= 95%;
+    # every remaining learner is borderline.
+    if (
+        len(flags) >= 2
+        or attendance < 50
+        or otj_completion < 50
+        or (
+            attendance < 100
+            and assessment_completion < 100
+            and otj_completion < 100
+        )
+    ):
         return "at-risk"
     if not flags and attendance >= 85 and assessment_completion >= 100 and otj_completion >= 95:
         return "healthy"
